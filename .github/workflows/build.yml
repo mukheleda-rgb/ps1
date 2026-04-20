@@ -12,10 +12,10 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Node.js
+      - name: Setup Node.js (Version 22)
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22' # قمنا بتغيير هذا الرقم لحل المشكلة
 
       - name: Install Dependencies
         run: npm install
