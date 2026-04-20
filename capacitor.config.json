@@ -1,0 +1,8 @@
+{
+  "appId": "com.basra.myapp",
+  "appName": "My App",
+  "webDir": "www",
+  "server": {
+    "url": "https://id-preview-69b1d569--5802d341-81d2-41f0-a76d-8da446e0cb42.lovable.app/"
+  }
+}
