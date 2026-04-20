@@ -5,18 +5,52 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
         with:
-          node-version: 22
-      - run: npm install
-      - run: npx cap init "App" "com.example.app" --web-dir .
-      - run: npx cap add android
-      - run: npx cap sync android
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Prepare Dummy Web Dir
+        run: mkdir -p www && touch www/index.html
+
+      - name: Initialize Capacitor
+        run: |
+          npx cap init "App" "com.example.app" --web-dir www
+          npx cap add android
+
+      - name: Update Capacitor Config for Lovable
+        run: |
+          cat <<EOF > capacitor.config.json
+          {
+            "appId": "com.example.app",
+            "appName": "App",
+            "webDir": "www",
+            "server": {
+              "url": "https://id-preview-69b1d569--5802d341-81d2-41f0-a76d-8da446e0cb42.lovable.app/",
+              "cleartext": true
+            }
+          }
+          EOF
+
+      - name: Sync Android
+        run: npx cap sync android
+      
       - name: Build with Gradle
         run: |
           cd android
           chmod +x gradlew
           ./gradlew assembleDebug
+          
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
