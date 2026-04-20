@@ -1,0 +1,8 @@
+{
+  "name": "app",
+  "dependencies": {
+    "@capacitor/core": "latest",
+    "@capacitor/cli": "latest",
+    "@capacitor/android": "latest"
+  }
+}
